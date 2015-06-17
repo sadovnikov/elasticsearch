@@ -9,7 +9,7 @@ title:               Elasticsearch
 tagline:             Mesos Framework
 description:         'Coming soon!<br>Elasticsearch on Mesos'
 url:                 https://github.com/mesos/elasticsearch
-baseurl:             ''
+baseurl:             '/elasticsearch'
 # paginate:            5
 
 # About/contact

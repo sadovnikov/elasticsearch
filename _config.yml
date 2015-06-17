@@ -1,0 +1,25 @@
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+relative_permalinks: true
+
+# Setup
+title:               Elasticsearch
+tagline:             Mesos Framework
+description:         'Coming soon!<br>Elasticsearch on Mesos'
+url:                 https://github.com/mesos/elasticsearch
+baseurl:             ''
+# paginate:            5
+
+# About/contact
+author:
+  name:              Container Solutions
+  url:               http://www.container-solutions.com/
+  email:             info@container-solutions.com
+
+github:
+  repo:				 https://github.com/mesos/elasticsearch
+
+# Custom vars
+version:             master

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Elasticsearch &middot; Mesos Framework
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="/public/css/custom.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-0b">
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>Coming soon!<br>Elasticsearch on Mesos</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/mesos/elasticsearch/archive/master.zip">Download</a>
+    <a class="sidebar-nav-item" href="https://github.com/mesos/elasticsearch">GitHub project</a>
+    <!-- <span class="sidebar-nav-item">Currently vmaster</span> -->
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2015 All rights reserved
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Elasticsearch</a>
+            <small>Mesos Framework</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <h1 id="roadmap">Roadmap</h1>
+
+<h3 id="features">Features</h3>
+
+<ul>
+  <li><span class="ballot_box_with_check"></span> Deployment</li>
+  <li><span class="ballot_box_with_check"></span> Durable cluster topology (via ZooKeeper)</li>
+  <li><span class="ballot_box_with_check"></span> Web UI on scheduler port 8080</li>
+  <li><span class="ballot_box"></span> Support deploying multiple Elasticsearch clusters to single Mesos cluster</li>
+  <li><span class="ballot_box"></span> High availability (master, indexer, replica)</li>
+  <li><span class="ballot_box"></span> Fault tolerance</li>
+  <li><span class="ballot_box"></span> Faster task recovery with Mesos dynamic reservations (https://issues.apache.org/jira/browse/MESOS-1554)</li>
+  <li><span class="ballot_box"></span> Scale cluster vertically</li>
+  <li><span class="ballot_box"></span> Scale cluster horizontally</li>
+  <li><span class="ballot_box"></span> Upgrade</li>
+  <li><span class="ballot_box"></span> Rollback</li>
+  <li><span class="ballot_box"></span> Snapshot and restore</li>
+</ul>
+
+<h3 id="developer-tools">Developer Tools</h3>
+
+<ul>
+  <li><span class="ballot_box_with_check"></span> Local environment (Docker-machine)</li>
+  <li><span class="ballot_box_with_check"></span> Rapid code + test (Docker compose)</li>
+  <li><span class="ballot_box_with_check"></span> Build automation (Gradle)</li>
+</ul>
+
+<h3 id="user-tools">User tools</h3>
+<ul>
+  <li><span class="ballot_box"></span> One click DCOS install</li>
+  <li><span class="ballot_box"></span> One JSON post to marathon install</li>
+</ul>
+
+<h3 id="certification">Certification</h3>
+
+<ul>
+  <li><span class="ballot_box"></span> DCOS Certified</li>
+</ul>
+
+<h1 id="getting-started">Getting Started</h1>
+
+<p>This framework requires:</p>
+
+<ul>
+  <li>A running <a href="http://mesos.apache.org">Mesos</a> cluster</li>
+  <li>The use of <a href="https://github.com/mesosphere/marathon">Marathon</a> is strongly recommended to provide resiliency against scheduler failover.</li>
+</ul>
+
+<h1 id="how-to-build">How to build</h1>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>./gradlew build</code></pre></div>
+
+<p>Alteratively:</p>
+
+<ul>
+  <li>Use <a href="https://github.com/dougborg/gdub">gdub</a> which runs the gradle wrapper from any subdirectory, so that you don’t need to deal with relative paths</li>
+  <li>Use <a href="#building-with-docker">Docker</a></li>
+  <li>Use <a href="#launching-a-docker-machine-vm">Docker-Machine</a></li>
+</ul>
+
+<h1 id="how-to-build-scheduler-and-executor-docker-containers">How to build scheduler and executor Docker containers</h1>
+
+<p>This describes how to build and launch a local instance of mesos, with the Mesos Elasticsearch project installed. If you want to build and run the containers natively, then skip the docker-machine step.</p>
+
+<h2 id="launching-a-docker-machine-vm">Launching a docker-machine VM</h2>
+
+<p>If you want to run docker-compose in a virtual machine (for example you are on a mac, where the native mesos libraries don’t work), then you can use docker machine.</p>
+
+<ul>
+  <li>Install docker-machine: https://docs.docker.com/machine/#installation</li>
+  <li>Create a virtual machine: <code>$ docker-machine create --driver virtualbox dev</code></li>
+  <li>Export the environment variables so you can communicate with the docker daemon: <code>$ eval "$(docker-machine env dev)"</code></li>
+</ul>
+
+<p>Docker-compose will connect to the VM docker daemon that was exported above.</p>
+
+<h2 id="building-the-code">Building the code</h2>
+
+<p>The docker containers for the scheduler and executor are not built by default:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>./gradlew build docker</code></pre></div>
+
+<h2 id="building-the-containers">Building the containers</h2>
+
+<p>Build only the scheduler or executor Docker container:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>./gradlew :scheduler:docker
+<span class="nv">$ </span>./gradlew :executor:docker</code></pre></div>
+
+<h2 id="launch-locally-with-docker-compose">Launch locally with Docker Compose</h2>
+
+<p>We recommend that you use docker-machine to test the Mesos Elasticsearch project locally. Users that do not want to use docker-machine, please ensure your Kernel supports overlayFS.</p>
+
+<p>Build the project as described above, then run the docker-compose scripts with the following commands:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">cd </span>system-test/src/test/resources/mesos-es
+<span class="nv">$ </span>docker-compose up</code></pre></div>
+
+<p>Now open the browser at http://localhost:5050 to view the Mesos GUI.</p>
+
+<p>NOTE: If you run docker from a VM (boot2docker on OSX), use the ip address assigned to the VM instead of localhost:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">docker-machine inspect dev -f <span class="s2">&quot;&quot;</span></code></pre></div>
+
+<p>The Elasticsearch task can be accessed via the slave on port 9200. Find the IP address of the slave: </p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>docker ps <span class="c"># Check the container ID of the slave</span>
+<span class="nv">$ </span>docker inspect &lt;ID&gt; <span class="p">|</span>  grep IPAddress <span class="c"># Find out the slave IP</span></code></pre></div>
+
+<p>Now open the browser at http://SLAVE_IP:9200 </p>
+
+<p>When you are done with docker compose kill the containers and remove everything:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>docker-compose <span class="nb">kill</span> 
+<span class="nv">$ </span>docker-compose rm --force -v</code></pre></div>
+
+<h2 id="how-to-install-on-mesos">How to install on Mesos</h2>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>deploy-executor.sh
+<span class="nv">$ </span>deploy-scheduler.sh
+<span class="nv">$ </span>deploy-cloud-mesos.sh</code></pre></div>
+
+<p>These scripts transfer the jars and the cloud-mesos zip to the master node. Also, the <i>executor</i> jar and 
+cloud-mesos are put in HDFS onder /elasticsearch because they are used to launch the elasticsearch task. Now you can SSH
+into the master node and run the <i>scheduler</i></p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>java -jar elasticsearch-mesos-scheduler.jar -m MASTER_IP:5050 -n <span class="m">3</span> -nn MASTER_IP:8020</code></pre></div>
+
+<h2 id="how-to-install-on-dcos">How to install on Dcos</h2>
+
+<p>If you have followed the steps described in “Full steps to build on Mac” then  to deploy execute the following steps.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>./deployDcos.sh --master<span class="o">=</span>MASTER_IP</code></pre></div>
+
+<p>Replace <code>MASTER_IP</code> in <code>--master=MASTER_IP</code> with a reference to a host recognisable by your <code>ssh</code> command.</p>
+
+<h2 id="how-to-find-the-mesos-master-on-aws">How to find the Mesos master on AWS</h2>
+
+<ol>
+  <li>Open Mesos website
+    <ul>
+      <li>Get the DCOS public DNS, </li>
+      <li>Copy it into another browser instance and</li>
+      <li>Use port 5050 by adding at the end of the DNS public address :5050.
+This will show the Mesos website for your instance</li>
+    </ul>
+  </li>
+  <li>Select from the Mesos website the ‘Slaves’ view</li>
+  <li>Make node of all the ‘Hosts’ (slave hosts)</li>
+  <li>In AWS Services select ‘EC2’</li>
+  <li>In the lefthand side menu select ‘Instances’</li>
+  <li>Find the instance with a ‘Public DNS’ which is not any of the ones belonging to the slaves and which belong to the DCOS installation
+    <ul>
+      <li>An instance belonging to the DCOS installation should have a ‘Security groups’ with a name that contains the word DCOS</li>
+    </ul>
+  </li>
+  <li>The ‘Public DNS’ for that instance is what you need to ssh (run the deploy script)</li>
+</ol>
+
+<h2 id="how-to-install-on-marathon">How to install on Marathon</h2>
+
+<p>Run the deploy.sh script from the root directory to install all the components. Now change to the scheduler folder and run </p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>./deploy-to-marathon.sh</code></pre></div>
+
+<p>This scripts loads the marathon.json file and runs the scheduler in a container on one of the slaves. Note that it 
+requires host networking.</p>
+
+<h2 id="how-to-import-demo-data">How to import demo data</h2>
+
+<p>The <a href="http://www.elastic.co/guide/en/kibana/3.0/import-some-data.html">Sharekespeare dataset</a> from Elastic.co can be
+imported with the <a href="https://registry.hub.docker.com/u/mwldk/shakespeare-import/">mwldk/shakespeare-import</a> Docker image.
+Just point the <code>ELASTIC_SEARCH_URL</code> environment variable at one of your Elastic nodes.</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>docker run --rm -e <span class="nv">ELASTIC_SEARCH_URL</span><span class="o">=</span>http://<span class="k">${</span><span class="nv">MASTER_IP</span><span class="k">}</span>:9200 mwldk/shakespeare-import</code></pre></div>
+
+<h2 id="alternative-ways-of-building">Alternative ways of building</h2>
+
+<h3 id="building-with-docker">Building with Docker</h3>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>docker run --rm -v /var/run/docker.sock:/var/run/docker.sock:rw <span class="se">\</span>
+      -v ~/.gradle/:/root/.gradle/:rw <span class="se">\</span>
+      -v <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>:/app:rw pierrevincent/gradle-java8 build</code></pre></div>
+
+<h2 id="sponsors">Sponsors</h2>
+
+<p>This project is sponsored by Cisco Cloud Services</p>
+
+<h2 id="license">License</h2>
+
+<p>Apache License 2.0</p>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-64279609-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>

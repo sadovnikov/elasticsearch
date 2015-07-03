@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Elasticsearch</title>
+ <link href="https://github.com/mesos/elasticsearch/atom.xml" rel="self"/>
+ <link href="https://github.com/mesos/elasticsearch/"/>
+ <updated>2015-07-03T10:53:58+02:00</updated>
+ <id>https://github.com/mesos/elasticsearch</id>
+ <author>
+   <name>Container Solutions</name>
+   <email>info@container-solutions.com</email>
+ </author>
+
+ 
+
+</feed>

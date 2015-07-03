@@ -1,0 +1,11 @@
+.ballot_box_with_check:before {
+  content: "\2611\ ";
+}
+
+.ballot_box:before {
+  content: "\2610\ ";
+}
+
+ul {
+	list-style: none;
+}

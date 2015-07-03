@@ -3,15 +3,43 @@ layout: default
 title: Home
 ---
 
+# Roadmap
+
+### Features
+
+- [x] Deployment
+- [x] Durable cluster topology (via ZooKeeper)
+- [x] Web UI on scheduler port 8080
+- [ ] Support deploying multiple Elasticsearch clusters to single Mesos cluster
+- [ ] High availability (master, indexer, replica)
+- [ ] Fault tolerance
+- [ ] Faster task recovery with Mesos dynamic reservations (https://issues.apache.org/jira/browse/MESOS-1554)
+- [ ] Scale cluster vertically
+- [ ] Scale cluster horizontally
+- [ ] Upgrade
+- [ ] Rollback
+- [ ] Snapshot and restore
+
+### Developer Tools
+
+- [x] Local environment (Docker-machine)
+- [x] Rapid code + test (Docker compose)
+- [x] Build automation (Gradle)
+
+### User tools
+- [ ] One click DCOS install
+- [ ] One JSON post to marathon install
+
+### Certification
+
+- [ ] DCOS Certified
+
 # Getting Started
 
 This framework requires:
 
-* a running [Mesos](http://mesos.apache.org) cluster
-* with <a href="https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html">HDFS</a>.  The HDFS dependency is not at a code level.  It is used as  local repository for the elastic search executor.  This requirement will be removed over time but will likely remain is one of the options for executor fetching. The use of <a href="https://github.com/mesosphere/marathon">Marathon</a> is optional.
-
-The framework can be run by building the code, the docker images, transferring the code to the Mesos cluster and
-launching the framework _scheduler_.
+* A running [Mesos](http://mesos.apache.org) cluster
+* The use of <a href="https://github.com/mesosphere/marathon">Marathon</a> is strongly recommended to provide resiliency against scheduler failover.
 
 # How to build
 
@@ -22,12 +50,45 @@ $ ./gradlew build
 Alteratively:
 
 * Use [gdub](https://github.com/dougborg/gdub) which runs the gradle wrapper from any subdirectory, so that you don't need to deal with relative paths
-* Use [Vagrant](#building-with-vagrant)
 * Use [Docker](#building-with-docker)
+* Use [Docker-Machine](#launching-a-docker-machine-vm)
 
-## How to launch with Docker Compose
+# How to build scheduler and executor Docker containers
 
-Build the project as described above
+This describes how to build and launch a local instance of mesos, with the Mesos Elasticsearch project installed. If you want to build and run the containers natively, then skip the docker-machine step.
+
+## Launching a docker-machine VM
+
+If you want to run docker-compose in a virtual machine (for example you are on a mac, where the native mesos libraries don't work), then you can use docker machine.
+
+* Install docker-machine: https://docs.docker.com/machine/#installation
+* Create a virtual machine: `$ docker-machine create --driver virtualbox dev`
+* Export the environment variables so you can communicate with the docker daemon: `$ eval "$(docker-machine env dev)"`
+
+Docker-compose will connect to the VM docker daemon that was exported above.
+
+## Building the code
+
+The docker containers for the scheduler and executor are not built by default:
+
+{% highlight bash %}
+$ ./gradlew build docker
+{% endhighlight %}
+
+## Building the containers
+
+Build only the scheduler or executor Docker container:
+
+{% highlight bash %}
+$ ./gradlew :scheduler:docker
+$ ./gradlew :executor:docker
+{% endhighlight %}
+
+## Launch locally with Docker Compose
+
+We recommend that you use docker-machine to test the Mesos Elasticsearch project locally. Users that do not want to use docker-machine, please ensure your Kernel supports overlayFS.
+
+Build the project as described above, then run the docker-compose scripts with the following commands:
 
 {% highlight bash %}
 $ cd system-test/src/test/resources/mesos-es
@@ -35,6 +96,12 @@ $ docker-compose up
 {% endhighlight %}
 
 Now open the browser at http://localhost:5050 to view the Mesos GUI.
+
+NOTE: If you run docker from a VM (boot2docker on OSX), use the ip address assigned to the VM instead of localhost:
+
+{% highlight bash %}
+docker-machine inspect dev -f "{{.Driver.IPAddress}}"
+{% endhighlight %}
 
 The Elasticsearch task can be accessed via the slave on port 9200. Find the IP address of the slave: 
 
@@ -116,43 +183,6 @@ $ docker run --rm -e ELASTIC_SEARCH_URL=http://${MASTER_IP}:9200 mwldk/shakespea
 
 ## Alternative ways of building
 
-### Building with Vagrant
-
-Prerequisites:
-
-* Running Docker service
-* Vagrant 1.7.2 and VirtualBox 4.3.26 (at least the versions have been tested)
-
-**Note:** Currently you need to sudo the build command or the Docker part will fail. This will be fixed shortly.
-
-Actions to perform to start in Mac:
-
-1. Start Vagrant from project directory:
-
-    {% highlight bash %}
-    $ vagrant up
-    {% endhighlight %}
-
-2. When completed SSH into the VM:
-
-    {% highlight bash %}
-    $ vagrant ssh
-    {% endhighlight %}
-
-3. Build 
-
-    {% highlight bash %}
-    $ cd /vagrant
-    $ sudo ./gradlew build
-    {% endhighlight %}
-    
-### Build performance
-When building multi-project projects, you can force gradle to re-use the cached versions of previous libraries with the “-a” parameter. (see https://docs.gradle.org/current/userguide/multi_project_builds.html). The first time the build will take 45 minutes, but subsequent builds will be much faster with the -a.
-E.g. sudo ./gradlew -a :scheduler:build -x :scheduler:buildDockerImage
-Only takes 10 minutes on vagrant, rather than 45.
-
-Also, you can improve speed by giving vagrant more CPUs and memory in the Vagrantfile.
-
 ### Building with Docker
 
 {% highlight bash %}
@@ -162,7 +192,9 @@ $ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock:rw \
 {% endhighlight %}
 
 ## Sponsors
+
 This project is sponsored by Cisco Cloud Services
 
 ## License
+
 Apache License 2.0

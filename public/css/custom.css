@@ -7,5 +7,48 @@
 }
 
 ul {
-	list-style: none;
+    list-style: none;
+}
+
+#diagrams{
+    list-style: none;
+    display: block;
+}
+#diagrams img{
+    width: 100%;
+}
+.bx-wrapper{
+    position: relative;
+}
+.bx-prev,
+.bx-next{
+    display: block;
+    position: absolute;
+    z-index: 9999;
+    top: 50%;
+    margin-top: -16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    text-decoration: none !important;
+    color: #fff !important;
+    font-size: 24px;
+    line-height: 28px !important;
+    text-align: center;
+    overflow: hidden;
+    background: rgba(0,0,0,.2);
+    box-sizing: border-box;
+    padding: 0 !important;
+}
+.bx-prev:hover,
+.bx-next:hover{
+    background: rgba(0,0,0,.5);
+}
+.bx-prev{
+    left: 0;
+    padding-right: 4px;
+}
+.bx-next{
+    right: 0;
+    padding-left: 4px;
 }

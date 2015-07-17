@@ -16,18 +16,18 @@
   </title>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/elasticsearch/public/css/poole.css">
-  <link rel="stylesheet" href="/elasticsearch/public/css/syntax.css">
-  <link rel="stylesheet" href="/elasticsearch/public/css/lanyon.css">
-  <link rel="stylesheet" href="/elasticsearch/public/css/custom.css">
+  <link rel="stylesheet" href="public/css/poole.css">
+  <link rel="stylesheet" href="public/css/syntax.css">
+  <link rel="stylesheet" href="public/css/lanyon.css">
+  <link rel="stylesheet" href="public/css/custom.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
 
   <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/elasticsearch/public/apple-touch-icon-precomposed.png">
-  <link rel="shortcut icon" href="/elasticsearch/public/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="public/favicon.ico">
 
   <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="atom.xml">
 </head>
 
 
@@ -44,26 +44,9 @@
   </div>
 
   <nav class="sidebar-nav">
-    <a class="sidebar-nav-item" href="/elasticsearch/">Home</a>
-
-    
-
-    
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-    
-
-    <a class="sidebar-nav-item" href="https://github.com/mesos/elasticsearch/archive/master.zip">Download</a>
+    <a class="sidebar-nav-item" href="">Home</a>
+    <a class="sidebar-nav-item" href="https://github.com/mesosarchive/master.zip">Download</a>
     <a class="sidebar-nav-item" href="https://github.com/mesos/elasticsearch">GitHub project</a>
-    <!-- <span class="sidebar-nav-item">Currently vmaster</span> -->
   </nav>
 
   <div class="sidebar-item">
@@ -80,13 +63,23 @@
       <div class="masthead">
         <div class="container">
           <h3 class="masthead-title">
-            <a href="/elasticsearch/" title="Home">Elasticsearch</a>
+            <a href="" title="Home">Elasticsearch</a>
             <small>Mesos Framework</small>
           </h3>
         </div>
       </div>
 
       <div class="container content">
+
+        <ul id="diagrams">
+            <li><img src="public/img/ES_Mesos_Step1.png" alt=""/></li>
+            <li><img src="public/img/ES_Mesos_Step2.png" alt=""/></li>
+            <li><img src="public/img/ES_Mesos_Step3.png" alt=""/></li>
+            <li><img src="public/img/ES_Mesos_Step4.png" alt=""/></li>
+            <li><img src="public/img/ES_Mesos_Step5.png" alt=""/></li>
+            <li><img src="public/img/ES_Mesos_Step6.png" alt=""/></li>
+        </ul>
+
         <h1 id="roadmap">Roadmap</h1>
 
 <h3 id="features">Features</h3>
@@ -283,6 +276,21 @@ Just point the <code>ELASTIC_SEARCH_URL</code> environment variable at one of yo
     </div>
 
     <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script type="text/javascript" src="public/js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="public/js/jquery.bxslider.min.js"></script>
+      <script>
+      $("#diagrams").bxSlider({
+              mode: "fade",
+        pager: false,
+        auto: true,
+        pause: 2000, // 2 seconds
+        nextText: ">",
+        prevText: "<",
+        easing: "cubic-bezier(.7,.0,.3,1)"
+        
+        // More options to be found on http://bxslider.com/options
+          });
+    </script>
 
     <script>
       (function(document) {

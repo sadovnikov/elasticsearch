@@ -6,22 +6,35 @@
   content: "\2610\ ";
 }
 
-ul {
+h2, h3, h4 {
+    margin-top: 40px;
+}
+
+p, li {
+    font-size: 15px;
+}
+
+pre code {
+    font-size: 11px;
+}
+
+ul.ballot {
     list-style: none;
 }
 
-#diagrams{
+#diagrams {
     list-style: none;
     display: block;
+    padding: 0;
 }
-#diagrams img{
+#diagrams img {
     width: 100%;
 }
-.bx-wrapper{
+.bx-wrapper {
     position: relative;
 }
 .bx-prev,
-.bx-next{
+.bx-next {
     display: block;
     position: absolute;
     z-index: 9999;
@@ -33,7 +46,7 @@ ul {
     text-decoration: none !important;
     color: #fff !important;
     font-size: 24px;
-    line-height: 28px !important;
+    line-height: 32px !important;
     text-align: center;
     overflow: hidden;
     background: rgba(0,0,0,.2);
@@ -41,14 +54,25 @@ ul {
     padding: 0 !important;
 }
 .bx-prev:hover,
-.bx-next:hover{
+.bx-next:hover {
     background: rgba(0,0,0,.5);
 }
-.bx-prev{
+.bx-prev {
     left: 0;
     padding-right: 4px;
 }
-.bx-next{
+.bx-next {
     right: 0;
     padding-left: 4px;
+}
+.cc {
+    font-size: 0.6em;
+}
+.cc img {
+    height: 22px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: bottom;
+    margin: 0 10px 0 0;
+    padding: 0;
 }

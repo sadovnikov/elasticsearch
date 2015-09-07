@@ -35,26 +35,26 @@
 
     <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
      styles, `#sidebar-checkbox` for behavior. -->
-<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+    <input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
 
-<!-- Toggleable sidebar -->
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-item">
-    <p>Elasticsearch on Mesos</p>
-  </div>
+    <!-- Toggleable sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-item">
+        <p>Elasticsearch on Mesos</p>
+      </div>
 
-  <nav class="sidebar-nav">
-    <a class="sidebar-nav-item" href="">Home</a>
-    <a class="sidebar-nav-item" href="https://github.com/mesos/elasticsearch/archive/master.zip">Download</a>
-    <a class="sidebar-nav-item" href="https://github.com/mesos/elasticsearch">GitHub project</a>
-  </nav>
+      <nav class="sidebar-nav">
+        <a class="sidebar-nav-item" href="">Home</a>
+        <a class="sidebar-nav-item" href="https://github.com/mesos/elasticsearch/archive/master.zip">Download</a>
+        <a class="sidebar-nav-item" href="https://github.com/mesos/elasticsearch">GitHub project</a>
+      </nav>
 
-  <div class="sidebar-item">
-    <p>
-      &copy; 2015 All rights reserved
-    </p>
-  </div>
-</div>
+      <div class="sidebar-item">
+        <p>
+          &copy; 2015 All rights reserved
+        </p>
+      </div>
+    </div>
 
     <div class="wrap">
       <div class="masthead">
@@ -68,63 +68,54 @@
 
       <div class="container content">
 
-        <h1>Elasticsearch Mesos Framework</h1>
+        <h1>Elasticsearch</h1>
 
         <ul>
-        <li><a href="#roadmap">Roadmap</a>
-        <ul>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#depends-on-upcoming-mesos-features">Depends on upcoming Mesos features</a></li>
-        <li><a href="#developer-tools">Developer Tools</a></li>
-        <li><a href="#user-tools">User tools</a></li>
-        <li><a href="#certification">Certification</a></li>
-        </ul>
-        </li>
-        <li><a href="#getting-started">Getting Started</a></li>
-        <li><a href="#users-guide">Users Guide</a>
-
-        <ul>
-        <li><a href="#how-to-install-on-marathon">How to install on Marathon</a></li>
-        <li><a href="#user-interface">User Interface</a></li>
-        </ul>
-        </li>
-        <li><a href="#developers-guide">Developers Guide</a>
-
-        <ul>
-        <li><a href="#quickstart">Quickstart</a></li>
-        <li><a href="#how-to-run-on-linux">How to run on Linux</a>
-
-        <ul>
-        <li><a href="#requirements">Requirements</a></li>
-        </ul>
-        </li>
-        <li><a href="#how-to-run-on-mac">How to run on Mac</a>
-
-        <ul>
-        <li><a href="#requirements-1">Requirements</a></li>
-        </ul>
-        </li>
-        <li><a href="#system-test">System test</a>
-
-        <ul>
-        <li><a href="#how-to-run-system-tests-on-linux">How to run system tests on Linux</a>
-
-        <ul>
-        <li><a href="#requirements-2">Requirements</a></li>
-        </ul>
-        </li>
-        <li><a href="#how-to-run-on-mac-1">How to run on Mac</a>
-
-        <ul>
-        <li><a href="#requirements-3">Requirements</a></li>
-        </ul>
-        </li>
-        </ul>
-        </li>
-        </ul>
-        </li>
-        <li><a href="#sponsors">Sponsors</a></li>
-        <li><a href="#license">License</a></li>
+          <li><a href="#roadmap">Roadmap</a>
+            <ul>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#blocked-features">Blocked Features</a></li>
+              <li><a href="#developer-tools">Developer Tools</a></li>
+              <li><a href="#user-tools">User tools</a></li>
+              <li><a href="#certification">Certification</a></li>
+            </ul>
+          </li>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#users-guide">Users Guide</a>
+            <ul>
+              <li><a href="#how-to-install-on-marathon">How to install on Marathon</a></li>
+              <li><a href="#user-interface">User Interface</a></li>
+              <li><a href="#known-issues">Known Issues</a></li>
+            </ul>
+          </li>
+          <li><a href="#developers-guide">Developers Guide</a>
+            <ul>
+              <li><a href="#quickstart">Quickstart</a></li>
+              <li><a href="#how-to-run-on-linux">How to run on Linux</a>
+                <ul>
+                  <li><a href="#requirements">Requirements</a></li>
+                </ul>
+              </li>
+              <li><a href="#how-to-run-on-mac">How to run on Mac</a>
+                <ul>
+                  <li><a href="#requirements-1">Requirements</a></li>
+                </ul>
+              </li>
+              <li><a href="#system-test">System test</a>
+                <ul>
+                  <li><a href="#how-to-run-system-tests-on-linux">How to run system tests on Linux</a>
+                    <ul>
+                      <li><a href="#requirements-2">Requirements</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="#how-to-release">How to release</a></li>
+            </ul>
+          </li>
+          <li><a href="#support">Support</a></li>
+          <li><a href="#sponsors">Sponsors</a></li>
+          <li><a href="#license">License</a></li>
         </ul>
 
         <ul id="diagrams">
@@ -143,50 +134,52 @@
         <h3 id="features">Features</h3>
 
         <ul class="ballot">
-        <li><span class="ballot_box_with_check"></span> Deployment</li>
-        <li><span class="ballot_box_with_check"></span> Durable cluster topology (via ZooKeeper)</li>
-        <li><span class="ballot_box_with_check"></span> Web UI on scheduler port 8080</li>
-        <li><span class="ballot_box"></span> Support deploying multiple Elasticsearch clusters to single Mesos cluster</li>
-        <li><span class="ballot_box"></span> Fault tolerance</li>
-        <li><span class="ballot_box"></span> High availability (master, indexer, replica)</li>
-        <li><span class="ballot_box"></span> Upgrading configuration</li>
-        <li><span class="ballot_box"></span> Scale cluster horizontally</li>
-        <li><span class="ballot_box"></span> Scale cluster vertically</li>
-        <li><span class="ballot_box"></span> Upgrade</li>
-        <li><span class="ballot_box"></span> Rollback</li>
-        <li><span class="ballot_box"></span> Snapshot and restore</li>
+            <li><span class="ballot_box_with_check"></span> Deployment</li>
+            <li><span class="ballot_box_with_check"></span> Durable cluster topology (via ZooKeeper)</li>
+            <li><span class="ballot_box_with_check"></span> Web UI on scheduler port 31100</li>
+            <li><span class="ballot_box_with_check"></span> Support deploying multiple Elasticsearch clusters to single Mesos cluster</li>
+            <li><span class="ballot_box_with_check"></span> Fault tolerance</li>
+            <li><span class="ballot_box_with_check"></span> Customised ES configuration</li>
+            <li><span class="ballot_box"></span> High availability (master, indexer, replica)</li>
+            <li><span class="ballot_box"></span> Upgrading configuration</li>
+            <li><span class="ballot_box"></span> Scale cluster horizontally</li>
+            <li><span class="ballot_box"></span> Scale cluster vertically</li>
+            <li><span class="ballot_box"></span> Upgrade</li>
+            <li><span class="ballot_box"></span> Rollback</li>
+            <li><span class="ballot_box"></span> Snapshot and restore</li>
         </ul>
 
 
-        <h3 id="depends-on-upcoming-mesos-features">Depends on upcoming Mesos features</h3>
+        <h3 id="blocked-features">Blocked features</h3>
 
         <ul class="ballot">
-        <li><span class="ballot_box"></span> Faster task recovery with Mesos dynamic reservations (https://issues.apache.org/jira/browse/MESOS-1554)</li>
-        <li><span class="ballot_box"></span> Persistent storage</li>
+            <li><span class="ballot_box"></span> <a href="https://github.com/mesos/elasticsearch/issues/218">Authorization</a></li>
+            <li><span class="ballot_box"></span> <a href="https://github.com/mesos/elasticsearch/issues/228">Persistent Volumes</a></li>
+            <li><span class="ballot_box"></span> <a href="https://github.com/mesos/elasticsearch/issues/98">Dynamic Reservations</a></li>
         </ul>
 
 
-        <h3 id="developers-tools">Developer Tools</h3>
+        <h3 id="developer-tools">Developer Tools</h3>
 
         <ul class="ballot">
-        <li><span class="ballot_box_with_check"></span> Local environment (Docker-machine)</li>
-        <li><span class="ballot_box_with_check"></span> Rapid code + test (Mini Mesos)</li>
-        <li><span class="ballot_box_with_check"></span> Build automation (Gradle)</li>
+            <li><span class="ballot_box_with_check"></span> Local environment (Docker-machine)</li>
+            <li><span class="ballot_box_with_check"></span> Rapid code + test (Mini Mesos)</li>
+            <li><span class="ballot_box_with_check"></span> Build automation (Gradle)</li>
         </ul>
 
 
         <h3 id="user-tools">User tools</h3>
 
         <ul class="ballot">
-        <li><span class="ballot_box"></span> One click DCOS install</li>
-        <li><span class="ballot_box"></span> One JSON post to marathon install</li>
+            <li><span class="ballot_box_with_check"></span> One click DCOS install</li>
+            <li><span class="ballot_box_with_check"></span> One JSON post to marathon install</li>
         </ul>
 
 
         <h3 id="certification">Certification</h3>
 
         <ul class="ballot">
-        <li><span class="ballot_box"></span> DCOS Certified</li>
+            <li><span class="ballot_box"></span> DCOS Certified</li>
         </ul>
 
 
@@ -194,38 +187,133 @@
 
         <p>We recommend that users install via marathon or via the DCOS command line (coming soon!).</p>
 
-        <p>This framework requires:
-        * A running <a href="http://mesos.apache.org">Mesos</a> cluster
-        * The use of <a href="https://github.com/mesosphere/marathon">Marathon</a> is strongly recommended to provide resiliency against scheduler failover.</p>
+        <p>This framework requires:</p>
+        <ul>
+          <li>A running <a href="http://mesos.apache.org">Mesos</a> cluster</li>
+          <li>The use of <a href="https://github.com/mesosphere/marathon">Marathon</a> is strongly recommended to provide resiliency against scheduler failover.</li>
+        </ul>
 
         <h2 id="users-guide">Users Guide</h2>
 
         <h3 id="how-to-install-on-marathon">How to install on Marathon</h3>
 
-        <p>Create a Marathon file like the one below and fill in the IP addresses and other configuration.</p>
+        <p>Create a Marathon file like the one below and fill in the IP addresses and other configuration. This is the minimum viable command; there are many more options.</p>
 
-<pre><code>{
-  "id": "elasticsearch-mesos-scheduler",
-  "container": {
-    "docker": {
-      "image": "mesos/elasticsearch-scheduler",
-      "network": "HOST"
-    }
-  },
-  "args": ["-n", "3", "-zk", "zk://ZOOKEEPER_IP_ADDRESS:2181/mesos", "-ram", "2048"],
-  "cpus": 0.2,
-  "mem": 512.0,
-  "instances": 1
+        <pre><code>{
+"id": "elasticsearch-mesos-scheduler",
+"container": {
+  "docker": {
+    "image": "mesos/elasticsearch-scheduler",
+    "network": "HOST"
+  }
+},
+"args": ["--zookeeperMesosUrl", "zk://ZOOKEEPER_IP_ADDRESS:2181/mesos"],
+"cpus": 0.2,
+"mem": 512.0,
+"env": {
+  "JAVA_OPTS": "-Xms128m -Xmx256m"
+},
+"instances": 1
 }</code></pre>
 
         <p>Then post to marathon to instantiate the scheduler:
         <code>curl -k -XPOST -d @marathon.json -H "Content-Type: application/json" http://MARATHON_IP_ADDRESS:8080/v2/apps</code></p>
 
+        <p>Note: the JAVA_OPTS line is required. If this is not set, then the Java heap space will be incorrectly set.</p>
+
+        <p>Other command line options include:</p>
+        <pre><code>Usage: (Options preceded by an asterisk are required) [options]
+  Options:
+    --elasticsearchClusterName
+       Name of the elasticsearch cluster
+       Default: mesos-ha
+    --elasticsearchCpu
+       The amount of CPU resource to allocate to the elasticsearch instance.
+       Default: 1.0
+    --elasticsearchDisk
+       The amount of Disk resource to allocate to the elasticsearch instance
+       (MB).
+       Default: 1024.0
+    --elasticsearchNodes
+       Number of elasticsearch instances.
+       Default: 3
+    --elasticsearchRam
+       The amount of ram resource to allocate to the elasticsearch instance
+       (MB).
+       Default: 256.0
+    --elasticsearchSettingsLocation
+       URI to ES yml settings file. If file is copied to all slaves, the file
+       must be in /tmp/config. E.g. 'file:/tmp/config/elasticsearch.yml',
+       'http://webserver.com/elasticsearch.yml'
+       Default: &lt;empty string&gt;
+    --executorForcePullImage
+       Option to force pull the executor image.
+       Default: false
+    --executorHealthDelay
+       The delay between executor healthcheck requests (ms).
+       Default: 30000
+    --executorImage
+       The docker executor image to use.
+       Default: mesos/elasticsearch-executor
+    --executorName
+       The name given to the executor task.
+       Default: elasticsearch-executor
+    --executorTimeout
+       The maximum executor healthcheck timeout (ms). Must be greater than
+       --executorHealthDelay. Will start new executor after this length of time.
+       Default: 60000
+    --frameworkFailoverTimeout
+       The time before Mesos kills a scheduler and tasks if it has not recovered
+       (ms).
+       Default: 2592000.0
+    --frameworkName
+       The name given to the framework.
+       Default: elasticsearch
+    --webUiPort
+       TCP port for web ui interface.
+       Default: 31100
+    --zookeeperFrameworkTimeout
+       The timeout for connecting to zookeeper for the framework (ms).
+       Default: 20000
+    --zookeeperFrameworkUrl
+       Zookeeper urls for the framework in the format zk://IP:PORT,IP:PORT,...)
+       Default: &lt;empty string&gt;
+    --zookeeperMesosTimeout
+       The timeout for connecting to zookeeper for Mesos (ms).
+       Default: 20000
+  * --zookeeperMesosUrl
+       Zookeeper urls for Mesos in the format zk://IP:PORT,IP:PORT,...)
+       Default: zk://mesos.master:2181
+</code></pre>
+
         <h3 id="user-interface">User Interface</h3>
 
-        <p>The web based user interface is available on port 8080 of the scheduler by default. It displays real time information about the tasks running in the cluster and a basic configuration overview of the cluster.</p>
+        <p>The web based user interface is available on port 31100 of the scheduler by default. It displays real time information about the tasks running in the cluster and a basic configuration overview of the cluster.</p>
 
         <p>The user interface uses REST API of the Elasticsearch Mesos Framework. You can find the API documentation here: <a href="http://docs.elasticsearchmesosui.apiary.io/">docs.elasticsearchmesosui.apiary.io</a>.</p>
+
+        <h4>Cluster Overview</h4>
+
+        <p><img src="/elasticsearch/public/img/screenshot-cluster.png" alt="Tasks List" /></p>
+
+        <p>Cluster overview page shows on the top the number of Elasticsearch nodes in the cluster, the overall amount of RAM and disk space allocated by the cluster. State of individual nodes is displayed in a bar, one color representing each state and the percentage of nodes being in this state.</p>
+
+        <p>Below you can find Configuration Overview section and Query Browser, that allows you to examine data stored on individual Elasticsearch nodes.</p>
+
+        <h4>Tasks List</h4>
+
+        <p><img src="/elasticsearch/public/img/screenshot-tasks.png" alt="Tasks List" /></p>
+
+        <p>Tasks list displays detailed information about all tasks in the cluster, not only those currently running, but also tasks being staged, finished or failed. Click through individual tasks to get access to Elasticsearch REST API.</p>
+
+        <h3 id="known-issues">Known issues</h3>
+
+        <ul>
+            <li>Issue <a href="https://github.com/mesos/elasticsearch/issues/206">#206</a>: The GUI will not represent the true state of the cluster after a scheduler or executor reconciliation event. E.g. If the scheduler is killed and restarted, the GUI will show zero executors, even though there are executors present.</li>
+            <li>Issue <a href="https://github.com/mesos/elasticsearch/issues/188">#188</a>: Database data IS NOT persisted to disk. Data storage is wholly reliant on cluster redundancy. This means that the framework is not yet recommended for production use.</li>
+            <li>Issue <a href="https://github.com/mesos/elasticsearch/issues/177#issuecomment-135367451">#177</a>: Executors keep running if the scheduler is killed unless the DCOS CLI is used.</li>
+        </ul>
+
 
         <h2 id="developers-guide">Developers Guide</h2>
 
@@ -240,24 +328,26 @@
         <h4 id="requirements">Requirements</h4>
 
         <ul>
-        <li>Docker</li>
+            <li>Docker</li>
         </ul>
 
 
-        <pre><code>$ ./gradlew build buildDockerImage system-test:main</code></pre>
+        <pre><code>$ ./gradlew build system-test:main</code></pre>
 
         <h3 id="how-to-run-on-mac">How to run on Mac</h3>
 
         <h4 id="requirements-1">Requirements</h4>
 
         <ul>
-        <li>Docker Machine</li>
+            <li>Docker Machine</li>
         </ul>
 
 
         <pre><code>$ docker-machine create -d virtualbox --virtualbox-memory 4096 --virtualbox-cpu-count 2 mesos-es
 $ eval $(docker-machine env mesos-es)
-$ ./gradlew build docker system-test:main</code></pre>
+$ sudo route -n add 172.17.0.0/16 $(docker-machine ip mesos-es)
+$ ./gradlew build system-test:main
+</code></pre>
 
         <h3 id="system-test">System test</h3>
 
@@ -268,30 +358,53 @@ $ ./gradlew build docker system-test:main</code></pre>
         <h5 id="requirements-2">Requirements</h5>
 
         <ul>
-        <li>Docker</li>
+            <li>Docker</li>
         </ul>
 
 
-        <pre><code>$ ./gradlew build buildDockerImage system-test:systemTest</code></pre>
+        <p>Run all system tests</p>
 
-        <h4 id="how-to-run-on-mac-1">How to run on Mac</h4>
+        <pre><code>$ ./gradlew build system-test:systemTest</code></pre>
 
-        <h5 id="requirements-3">Requirements</h5>
+        <p>Run a single system test</p>
 
-        <ul>
-        <li>Docker Machine</li>
-        </ul>
+        <pre><code>$ ./gradlew -DsystemTest.single=DiscoverySystemTest system-test:systemTest</code></pre>
 
+        <h3 id="how-to-release">How to release</h3>
 
-        <pre><code>$ docker-machine create -d virtualbox --virtualbox-memory 4096 --virtualbox-cpu-count 2 mesos-es
-$ eval $(docker-machine env mesos-es)
-$ ./gradlew build docker system-test:systemTest</code></pre>
+        <p>1 First update the CHANGELOG.md by listing fixed issues and bugs</p>
+
+        <p>2 Create the following Gradle property file in ~/.gradle/gradle.properties and refer to your Github and Docker Hub
+        user/pass.</p>
+
+        <pre><code>systemProp.org.ajoberstar.grgit.auth.interactive.allow=false
+systemProp.org.ajoberstar.grgit.auth.ssh.private=~/.ssh/id_rsa
+systemProp.org.ajoberstar.grgit.auth.username=user
+systemProp.org.ajoberstar.grgit.auth.password=password
+dockerHubUsername=user
+dockerHubPassword=******
+dockerHubEmail=email
+</code></pre>
+
+        <p>3 Update the version number in the Configuration.class so that the Web UI shows the correct version number.</p>
+
+        <p>4 Build and make sure the system tests pass (skip if you have tested on jenkins)</p>
+
+        <pre><code>$ ./gradlew build system-test:systemTest</code></pre>
+
+        <p>5 Now perform a release and specify the release type: major, minor or patch (only one!) and your username.</p>
+
+        <pre><code>$ ./gradlew release -PreleaseType={major OR minor OR patch} -PuserName={user}</code></pre>
+
+        <h2 id="support">Support</h2>
+
+        <p>Get in touch with the Elasticsearch Mesos framework developers via <a href="mesos-es@container-solutions.com">mesos-es@container-solutions.com</a></p>
 
         <h2 id="sponsors">Sponsors</h2>
 
         <p>This project is sponsored by Cisco Cloud Services</p>
 
-        <h2 id="licence">License</h2>
+        <h2 id="license">License</h2>
 
         <p>Apache License 2.0</p>
 

@@ -165,27 +165,19 @@ public class ElasticsearchAuthSystemTest {
     }
 
     @Test
-    public void miniMesosReportsFrameworkRoleStar() throws UnirestException, JsonParseException, JsonMappingException {
-        testMiniMesosReportsFrameworkRole("*");
-    }
-
-    @Test
-    public void miniMesosReportsFrameworkRoleOther() throws UnirestException, JsonParseException, JsonMappingException {
-        testMiniMesosReportsFrameworkRole("foobar");
-    }
-
-    private void testMiniMesosReportsFrameworkRole(String role) throws UnirestException, JsonParseException, JsonMappingException {
-        LOGGER.info("Starting Elasticsearch scheduler with framework role: " + role);
+    private void testFrameworkCanRegisterWithCorrectPrincipalAndRole() throws UnirestException, JsonParseException, JsonMappingException {
         ElasticsearchSchedulerContainer scheduler = new ElasticsearchSchedulerContainer(
                 CLUSTER.getConfig().dockerClient,
                 CLUSTER.getMesosContainer().getIpAddress(),
-                role
+                "testRole",
+                "testPrincipal"
         );
         CLUSTER.addAndStartContainer(scheduler);
         LOGGER.info("Started Elasticsearch scheduler on " + scheduler.getIpAddress() + ":31100");
 
         Awaitility.await().atMost(30, TimeUnit.SECONDS).until(() -> CLUSTER.getStateInfo().getFramework("elasticsearch") != null);
-        Assert.assertEquals(role, CLUSTER.getStateInfo().getFramework("elasticsearch").getRole());
+        Assert.assertEquals("testRole", CLUSTER.getStateInfo().getFramework("elasticsearch").getRole());
+        //Assert.assertEquals("testPrincipal", CLUSTER.getStateInfo().getFramework("elasticsearch").getPrincipal());
         scheduler.remove();
     }
 }

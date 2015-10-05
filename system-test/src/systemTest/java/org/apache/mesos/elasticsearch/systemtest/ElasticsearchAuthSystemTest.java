@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.dockerjava.api.command.ExecCreateCmd;
+import com.github.dockerjava.api.command.ExecCreateCmdResponse;
 import com.jayway.awaitility.Awaitility;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.collections4.ListUtils;
@@ -32,14 +34,14 @@ public class ElasticsearchAuthSystemTest {
     public static final class ACLStringPredicateAny extends ACLStringPredicate {
         public ACLStringPredicateAny() {}
         public Object toJSONAST() {
-            return new TreeMap<String,String>() {{ put("type", "ANY"); }};
+            return new TreeMap<String, String>() {{ put("type", "ANY"); }};
         }
     }
 
     public static final class ACLStringPredicateNone extends ACLStringPredicate {
         public ACLStringPredicateNone() {}
         public Object toJSONAST() {
-            return new TreeMap<String,String>() {{ put("type", "NONE"); }};
+            return new TreeMap<String, String>() {{ put("type", "NONE"); }};
         }
     }
 
@@ -49,7 +51,7 @@ public class ElasticsearchAuthSystemTest {
             this.values = values;
         }
         public Object toJSONAST() {
-            return new TreeMap<String,Object>() {{ put("values", values); }};
+            return new TreeMap<String, Object>() {{ put("values", values); }};
         }
     }
 
@@ -61,7 +63,7 @@ public class ElasticsearchAuthSystemTest {
             this.roles = roles;
         }
         public Object toJSONAST() {
-            return new TreeMap<String,Object>() {{
+            return new TreeMap<String, Object>() {{
                 put("principals", principals.toJSONAST());
                 put("roles", roles.toJSONAST());
             }};
@@ -76,7 +78,7 @@ public class ElasticsearchAuthSystemTest {
             this.users = users;
         }
         public Object toJSONAST() {
-            return new TreeMap<String,Object>() {{
+            return new TreeMap<String, Object>() {{
                 put("principals", principals.toJSONAST());
                 put("users", users.toJSONAST());
             }};
@@ -91,7 +93,7 @@ public class ElasticsearchAuthSystemTest {
             this.framework_principals = framework_principals;
         }
         public Object toJSONAST() {
-            return new TreeMap<String,Object>() {{
+            return new TreeMap<String, Object>() {{
                 put("principals", principals.toJSONAST());
                 put("framework_principals", framework_principals.toJSONAST());
             }};
@@ -110,7 +112,7 @@ public class ElasticsearchAuthSystemTest {
             this.shutdown_frameworks = shutdown_frameworks;
         }
         public Object toJSONAST() {
-            return new TreeMap<String,Object>() {{
+            return new TreeMap<String, Object>() {{
                 put("permissive", permissive);
                 put("register_frameworks", register_frameworks.stream().map(ACLRegisterFrameworkPredicate::toJSONAST).collect(Collectors.toList()));
                 put("run_tasks", run_tasks.stream().map(ACLRunTaskPredicate::toJSONAST).collect(Collectors.toList()));
@@ -172,6 +174,17 @@ public class ElasticsearchAuthSystemTest {
                 "testRole",
                 "testPrincipal"
         );
+
+        ExecCreateCmd execTeeCmd =
+                CLUSTER
+                .getConfig()
+                .dockerClient
+                .execCreateCmd(scheduler.getContainerId())
+                .withCmd("tee /path/to/secretfile")
+                .withAttachStdin();
+
+        execTeeCmd.exec();  // And here we want to write the file contents to the stdin of the command
+
         CLUSTER.addAndStartContainer(scheduler);
         LOGGER.info("Started Elasticsearch scheduler on " + scheduler.getIpAddress() + ":31100");
 

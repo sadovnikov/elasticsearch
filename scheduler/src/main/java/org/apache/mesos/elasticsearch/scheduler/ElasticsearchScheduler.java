@@ -38,6 +38,10 @@ public class ElasticsearchScheduler implements Scheduler {
         this.credentialFactory = new CredentialFactory(configuration);
     }
 
+    // Where the DB currently has frameworkId F, with N tasks, this makes
+    //   2N+1 GET requests to "/frameworkId"
+    //   N+1 GET requests to "/" ++ F ++ "/stateList"
+    //   N GET requests to "/" ++ frameworkID ++ "/state/" ++ taskID
     public Map<String, Task> getTasks() {
         if (clusterState == null) {
             return new HashMap<>();
@@ -88,23 +92,74 @@ public class ElasticsearchScheduler implements Scheduler {
     }
 
     @Override
+    // Assume we accept A offers and reject R offers
+    //
+    // Makes:
+    //   7A+2R GET requests to "/frameworkId"
+    //   5A+2R GET requests to "/" ++ F ++ "/stateList"
+    //   2A GET requests to "/" ++ frameworkID
+    //   1A GET request  to "/" ++ frameworkID ++ "/state"
+    //   1A GET request  to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
+    //   1A SET request  to "/" ++ frameworkID ++ "/stateList"
+    //   1A SET request  to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
+    //   another [0,5A] SET requests
+    //
+    // i.e. 16A+4R GET requests and [0,7A] SET requests
+    //
+    // E.g. A=3, R=2, we make 56 GET requests and something like 21 SET requests
     public void resourceOffers(SchedulerDriver driver, List<Protos.Offer> offers) {
         if (!frameworkState.isRegistered()) {
             LOGGER.debug("Not registered, can't accept resource offers.");
             return;
         }
         for (Protos.Offer offer : offers) {
+            // offerStrategy.evaluate(...) makes:
+            //   2 GET requests to "/frameworkId"
+            //   2 GET requests to "/" ++ F ++ "/stateList"
             final OfferStrategy.OfferResult result = offerStrategy.evaluate(offer);
 
             if (!result.acceptable) {
                 LOGGER.debug("Declined offer: " + result.reason.orElse("Unknown"));
                 driver.declineOffer(offer.getId());
             } else {
+                // This block makes
+                //   5 GET requests to "/frameworkId"
+                //   2 GET requests to "/" ++ frameworkID
+                //   1 GET request to "/" ++ frameworkID ++ "/state"
+                //   1 GET request to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
+                //   3 GET requests to "/" ++ frameworkID ++ "/stateList"
+                //   1 SET request  to "/" ++ frameworkID ++ "/stateList"
+                //   1 SET request to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
+                //   another [0,5] SET requests
+
                 Protos.TaskInfo taskInfo = taskInfoFactory.createTask(configuration, frameworkState, offer);
+
                 LOGGER.debug(taskInfo.toString());
+
                 driver.launchTasks(Collections.singleton(offer.getId()), Collections.singleton(taskInfo));
+
+                // frameworkState.getFrameworkID() makes:
+                //   1 GET request to "/frameworkId"
+
+                // `new ESTaskStatus(...)` makes (since we know the task doesn't already exist in ZK):
+                //     1 GET request to "/" ++ frameworkID
+                //     1 GET request to "/" ++ frameworkID ++ "/state"
+                //     1 GET request to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
+                //     [0,3] SET requests to above components
+                //     1 SET request to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
                 ESTaskStatus esTask = new ESTaskStatus(zookeeperStateDriver, frameworkState.getFrameworkID(), taskInfo, new StatePath(zookeeperStateDriver)); // Write staging state to zk
+
+                // clusterState.addTask(...) makes
+                //   4 GET requests to "/frameworkId"
+                //   1 GET request  to "/" ++ frameworkID
+                //   3 GET requests to "/" ++ frameworkID ++ "/stateList"
+                //   1 SET request  to "/" ++ frameworkID ++ "/stateList"
+                //   another [0,2] SET requests
                 clusterState.addTask(esTask); // Add tasks to cluster state and write to zk
+
+                // makes
+                //   1 GET request to "/frameworkId"
+                //   1 GET request to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
                 frameworkState.announceNewTask(esTask);
             }
         }

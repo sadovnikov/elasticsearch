@@ -19,6 +19,9 @@ public class StatePath {
      * Creates the zNode if it does not exist. Will create parent directories.
      * @param key the zNode path
      */
+    // Where `key` has N components, this makes:
+    //   N GET requests
+    //   [0,N] SET requests
     public void mkdir(String key) throws IOException {
         key = key.replace(" ", "");
         if (key.endsWith("/") && !key.equals("/")) {
@@ -28,13 +31,19 @@ public class StatePath {
         StringBuilder builder = new StringBuilder();
         for (String s : split) {
             builder.append(s);
+            // exists(..) makes one GET request
             if (!s.isEmpty() && !exists(builder.toString())) {
+                // one SET request
                 zkState.set(builder.toString(), null);
             }
             builder.append("/");
         }
     }
 
+    /**
+     * Makes:
+     *   1 GET request to `key`
+     */
     public Boolean exists(String key) throws IOException {
         Boolean exists = true;
         Object value = zkState.get(key);

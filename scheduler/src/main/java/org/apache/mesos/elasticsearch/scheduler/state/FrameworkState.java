@@ -34,6 +34,8 @@ public class FrameworkState {
     /**
      * Return empty if no frameworkId found.
      */
+    // Makes:
+    //   1 GET request to "/frameworkId"
     public Protos.FrameworkID getFrameworkID() {
         Protos.FrameworkID id = null;
         try {
@@ -78,6 +80,12 @@ public class FrameworkState {
         return registered.get();
     }
 
+    // this is too dynamic to reason about easily but we can cheat by assuming only listener is:
+    //   ClusterMonitor.startMonitoringTask
+    //
+    // makes
+    //   1 GET request to "/frameworkId"
+    //   1 GET request to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
     public void announceNewTask(ESTaskStatus esTask) {
         newTaskListeners.forEach(newTaskStatusConsumer -> newTaskStatusConsumer.accept(esTask));
     }

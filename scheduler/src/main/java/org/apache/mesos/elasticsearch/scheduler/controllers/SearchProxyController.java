@@ -35,7 +35,12 @@ public class SearchProxyController {
 
     @RequestMapping("/_cluster/stats")
     public ResponseEntity<InputStreamResource> stats() throws IOException {
+        // Where the DB currently has frameworkId F, with N tasks, this makes
+        //   2N+1 GET requests to "/frameworkId"
+        //   N+1 GET requests to "/" ++ F ++ "/stateList"
+        //   N GET requests to "/" ++ frameworkID ++ "/state/" ++ taskID
         Collection<Task> tasks = scheduler.getTasks().values();
+
         Stream<HttpHost> httpHostStream = tasks.stream().map(task -> toHttpHost(task.getClientAddress()));
         HttpHost httpHost = httpHostStream.skip(RandomUtils.nextInt(tasks.size())).findAny().get();
 
@@ -52,7 +57,13 @@ public class SearchProxyController {
     @RequestMapping("/_search")
     public ResponseEntity<InputStreamResource> search(@RequestParam("q") String query, @RequestHeader(value = "X-ElasticSearch-Host", required = false) String elasticSearchHost) throws IOException {
         HttpHost httpHost = null;
+
+        // Where the DB currently has frameworkId F, with N tasks, this makes
+        //   2N+1 GET requests to "/frameworkId"
+        //   N+1 GET requests to "/" ++ F ++ "/stateList"
+        //   N GET requests to "/" ++ frameworkID ++ "/state/" ++ taskID
         Collection<Task> tasks = scheduler.getTasks().values();
+
         Stream<HttpHost> httpHostStream = tasks.stream().map(task -> toHttpHost(task.getClientAddress()));
 
         if (elasticSearchHost != null) {

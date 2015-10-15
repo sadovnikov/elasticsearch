@@ -18,11 +18,23 @@ public class OfferStrategy {
     private Configuration configuration;
 
     private List<OfferRule> acceptanceRules = asList(
+
+            // makes:
+            //   1 GET request to "/frameworkId"
+            //   1 GET request to "/" ++ F ++ "/stateList"
             new OfferRule("Host already running task", this::isHostAlreadyRunningTask),
+
+            // makes:
+            //   1 GET request to "/frameworkId"
+            //   1 GET request to "/" ++ F ++ "/stateList"
             new OfferRule("Cluster size already fulfilled", offer -> clusterState.getTaskList().size() == configuration.getElasticsearchNodes()),
+
             new OfferRule("Offer did not have 2 ports", offer -> !containsTwoPorts(offer.getResourcesList())),
+
             new OfferRule("Offer did not have enough CPU resources", offer -> !isEnoughCPU(configuration, offer.getResourcesList())),
+
             new OfferRule("Offer did not have enough RAM resources", offer -> !isEnoughRAM(configuration, offer.getResourcesList())),
+
             new OfferRule("Offer did not have enough disk resources", offer -> !isEnoughDisk(configuration, offer.getResourcesList()))
     );
 
@@ -31,7 +43,18 @@ public class OfferStrategy {
         this.configuration = configuration;
     }
 
+    // makes:
+    //   2 GET requests to "/frameworkId"
+    //   2 GET requests to "/" ++ F ++ "/stateList"
     public OfferResult evaluate(Protos.Offer offer) {
+
+        // first rule makes:
+        //   1 GET request to "/frameworkId"
+        //   1 GET request to "/" ++ F ++ "/stateList"
+
+        // second rule makes:
+        //   1 GET request to "/frameworkId"
+        //   1 GET request to "/" ++ F ++ "/stateList"
         final Optional<OfferRule> decline = acceptanceRules.stream().filter(offerRule -> offerRule.rule.accepts(offer)).limit(1).findFirst();
         if (decline.isPresent()) {
             return OfferResult.decline(decline.get().declineReason);
@@ -62,9 +85,17 @@ public class OfferStrategy {
         }
     }
 
+    // makes:
+    //   1 GET request to "/frameworkId"
+    //   1 GET request to "/" ++ F ++ "/stateList"
     private boolean isHostAlreadyRunningTask(Protos.Offer offer) {
         Boolean result = false;
+
+        // clusterState.getTaskList() makes:
+        //   1 GET request to "/frameworkId"
+        //   1 GET request to "/" ++ F ++ "/stateList"
         List<Protos.TaskInfo> stateList = clusterState.getTaskList();
+
         for (Protos.TaskInfo t : stateList) {
             if (t.getSlaveId().equals(offer.getSlaveId())) {
                 result = true;

@@ -9,7 +9,7 @@ import org.apache.mesos.elasticsearch.scheduler.state.ESTaskStatus;
 import java.security.InvalidParameterException;
 
 /**
- * Checks Zookeeper for the last udpate. If it is greater than a timeout, executor lost is called.
+ * Checks Zookeeper for the last update. If it is greater than a timeout, executor lost is called.
  */
 public class ExecutorHealth implements Runnable {
     public static final int EXIT_STATUS = 1;

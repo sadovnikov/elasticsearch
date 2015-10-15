@@ -39,6 +39,7 @@ public class ClusterMonitor {
         frameworkState.onStatusUpdate(this::updateTask);
     }
 
+    // makes
     public void startMonitoringTask(ESTaskStatus esTask) {
         startMonitoringTask(esTask.getTaskInfo());
     }
@@ -47,9 +48,19 @@ public class ClusterMonitor {
      * Start monitoring a task
      * @param taskInfo The task to monitor
      */
+    // Precondition: task is in ZK
+    // makes
+    //   1 GET request to "/frameworkId"
+    //   1 GET request to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
     public void startMonitoringTask(Protos.TaskInfo taskInfo) {
+        // frameworkState.getFrameworkID() makes:
+        //   1 GET request to "/frameworkId"
         final Protos.FrameworkID frameworkID = frameworkState.getFrameworkID();
+
         LOGGER.debug("Start monitoring: " + taskInfo.getTaskId().getValue() + " for frameworkId: " + frameworkID.getValue());
+
+        // `new ESTaskStatus` makes:
+        //     1 GET request to "/" ++ frameworkID ++ "/state/" ++ taskInfo.getTaskId()
         healthChecks.put(
                 taskInfo,
                 new AsyncPing(

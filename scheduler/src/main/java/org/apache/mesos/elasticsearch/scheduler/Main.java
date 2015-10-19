@@ -3,6 +3,8 @@ package org.apache.mesos.elasticsearch.scheduler;
 import org.apache.mesos.elasticsearch.scheduler.cluster.ClusterMonitor;
 import org.apache.mesos.elasticsearch.scheduler.state.ClusterState;
 import org.apache.mesos.elasticsearch.scheduler.state.FrameworkState;
+import org.apache.mesos.elasticsearch.scheduler.state.LoggingSerializableState;
+import org.apache.mesos.elasticsearch.scheduler.state.SerializableState;
 import org.apache.mesos.elasticsearch.scheduler.state.SerializableZookeeperState;
 import org.apache.mesos.state.ZooKeeperState;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -31,11 +33,17 @@ public class Main {
 
         configuration = new Configuration(args);
 
-        final SerializableZookeeperState zookeeperStateDriver = new SerializableZookeeperState(new ZooKeeperState(
-                configuration.getMesosStateZKURL(),
-                configuration.getZookeeperCLI().getZookeeperMesosTimeout(),
-                TimeUnit.MILLISECONDS,
-                "/" + configuration.getFrameworkName() + "/" + configuration.getElasticsearchCLI().getElasticsearchClusterName()));
+        final SerializableState zookeeperStateDriver =
+            new LoggingSerializableState(
+                new SerializableZookeeperState(
+                        new ZooKeeperState(
+                            configuration.getMesosStateZKURL(),
+                            configuration.getZookeeperCLI().getZookeeperMesosTimeout(),
+                            TimeUnit.MILLISECONDS,
+                            "/" + configuration.getFrameworkName() + "/" + configuration.getElasticsearchCLI().getElasticsearchClusterName()
+                        )
+                )
+            );
         final FrameworkState frameworkState = new FrameworkState(zookeeperStateDriver);
         final ClusterState clusterState = new ClusterState(zookeeperStateDriver, frameworkState);
 
@@ -47,6 +55,7 @@ public class Main {
                 new OfferStrategy(configuration, clusterState),
                 zookeeperStateDriver
         );
+
         new ClusterMonitor(configuration, frameworkState, zookeeperStateDriver, scheduler);
 
         HashMap<String, Object> properties = new HashMap<>();

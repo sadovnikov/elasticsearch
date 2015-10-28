@@ -16,7 +16,7 @@ public class Main {
 
     public static final Logger LOGGER = Logger.getLogger(Main.class);
     public static final Configuration TEST_CONFIG = new Configuration();
-    public static final String MESOS_IMAGE_TAG = "0.22.1-1.0.ubuntu1404";
+    public static final String MESOS_IMAGE_TAG = "0.23.0-1.0.ubuntu1404";
 
     public static void main(String[] args) throws InterruptedException {
         MesosCluster cluster = new MesosCluster(
